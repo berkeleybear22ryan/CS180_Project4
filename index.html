@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Processing Report</title>
+    <style>
+
+    .responsive-iframe {
+        width: 70vw;
+        height: 70vh;
+        border: none;
+    }
+
+    code, .backtick-code {
+        font-family: Consolas, "Courier New", monospace;
+        background-color: #464646;
+        border: 0px solid #000000;
+        padding: 2px 4px;
+        border-radius: 4px;
+        color: #ffffff;
+        font-size: 90%;
+    }
+
+    video {
+        max-width: 50%;
+        max-height: 100%;
+        flex: 1;
+    }
+
+    .backtick-code::before, .backtick-code::after {
+        content: "`";
+        color: #555;
+    }
+
+    .box {
+        border: 1px solid white;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    body {
+        font-family: "Times New Roman", sans-serif;
+        line-height: 1.6;
+        margin: 20px;
+        background-color: #050505;
+        color: #ababab;
+        font-size: 12px;
+    }
+
+    h1, h2, h3, h4 {
+    }
+
+    p {
+        text-align: justify;
+        margin-top: 0.5em;
+        margin-bottom: 1.5em;
+    }
+
+    img {
+        width: 50%;
+        height: auto;
+        margin-bottom: 0.5em;
+        display: block;
+    }
+
+    .img2 {
+        width: 80%;
+        height: auto;
+        margin-bottom: 0.5em;
+        display: block;
+    }
+
+    .img3 {
+        width: 50%;
+        height: auto;
+        margin-bottom: 0.5em;
+        display: block;
+    }
+
+    .img4 {
+        width: 20%;
+        height: auto;
+        margin-bottom: 0.5em;
+        display: block;
+    }
+
+    .img5, .image-row2 video {
+        width: 33%;
+        height: auto;
+        max-height: 100%;
+        object-fit: cover;
+    }
+
+    .image-row2 {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        width: 100%;
+        height: 100%;
+    }
+
+    .collapsible {
+        background-color: #111111;
+        color: grey;
+        cursor: pointer;
+        padding: 10px;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size: 12px;
+        margin-bottom: 10px;
+        position: relative;
+    }
+
+    .active, .collapsible:hover {
+        background-color: #464646;
+        color: #ababab;
+    }
+
+    .content {
+        padding: 20px;
+        display: none;
+        overflow: hidden;
+        background-color: #151515;
+    }
+
+    .collapsible::after {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        border: 1px solid;
+        border-radius: 4px;
+    }
+
+    .image-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .image-row img {
+        width: 20%;
+        height: auto;
+        object-fit: contain;
+    }
+
+    #image-container {
+        width: 100%;
+        height: 80vh;
+        position: relative;
+        overflow: hidden;
+        cursor: grab;
+        margin-bottom: 1.5em;
+        border: 1px solid #ababab;
+    }
+
+    #image-container:active {
+        cursor: grabbing;
+    }
+
+    #design-image {
+        user-select: none;
+        -webkit-user-drag: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform-origin: 0 0;
+    }
+
+</style>
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            }
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS_HTML-full"></script>
+</head>
+<body>
+
+<h1>CS180 Project 4 -- Ryan Nader</h1>
+
+<p>github: https://github.com/berkeleybear22ryan/CS180_Project4</p>
+<p>website: https://berkeleybear22ryan.github.io/CS180_Project4/</p>
+
+<button class="collapsible">Part 1: Shoot and Digitize Pictures</button>
+<div class="content">
+    <div class="box">
+        <p>For this project, I took multiple sets of pictures, but I ended up liking a set of online images better. I took my own images for practice but used the following for the mosaicing part. The images had overlapping fields of view, which made it easier to work with homographies and mosaic blending.</p>
+        <p>For the sets I worked with:</p>
+        <div class="image-row">
+            <img src="./code/images/9/001.jpg" alt="Image 9-001">
+            <img src="./code/images/9/002.jpg" alt="Image 9-002">
+            <img src="./code/images/9/003.jpg" alt="Image 9-003">
+        </div>
+        <div class="image-row">
+            <img src="./code/images/10/001.JPG" alt="Image 10-001">
+            <img src="./code/images/10/002.JPG" alt="Image 10-002">
+            <img src="./code/images/10/003.JPG" alt="Image 10-003">
+        </div>
+        <div class="image-row">
+            <img src="./code/images/11/001.JPG" alt="Image 11-001">
+            <img src="./code/images/11/002.JPG" alt="Image 11-002">
+            <img src="./code/images/11/003.JPG" alt="Image 11-003">
+        </div>
+    </div>
+    <div class="box">
+        <p>Here are the personal image sets that I took:</p>
+        <div class="image-row">
+            <img src="./code/images/1me/IMG_6783.jpg" alt="IMG_6783">
+            <img src="./code/images/1me/IMG_6786.jpg" alt="IMG_6786">
+            <img src="./code/images/1me/IMG_6792.jpg" alt="IMG_6792">
+        </div>
+        <div class="image-row">
+            <img src="./code/images/2me/IMG_6803.jpg" alt="IMG_6803">
+            <img src="./code/images/2me/IMG_6811.jpg" alt="IMG_6811">
+            <img src="./code/images/2me/IMG_6812.jpg" alt="IMG_6812">
+        </div>
+        <div class="image-row">
+            <img src="./code/images/3me/IMG_6402.jpg" alt="IMG_6402">
+            <img src="./code/images/3me/IMG_6406.jpg" alt="IMG_6406">
+            <img src="./code/images/3me/IMG_6407.jpg" alt="IMG_6407">
+        </div>
+    </div>
+</div>
+
+<button class="collapsible">Part 2: Recover Homographies</button>
+<div class="content">
+    <div class="box">
+        <p>Homography recovery was a critical part of aligning images. I manually selected corresponding points between image pairs, which were saved under the `code/points/` directory. The homographies were computed using a custom `computeH` function, which takes in these points and computes the homography matrix using a least-squares solution. Each transformation matrix was stored under `code/h_matrix/`.</p>
+    </div>
+    <div class="box">
+        <div class="box">
+        <p>Example of points visualization:</p>
+        <img src="./code/points_visual/1.png" alt="Points 001_002">
+        </div>
+    </div>
+    <div class="box">
+        <p>Homographies for different image sets:</p>
+        <ul>
+            <li><code>code/h_matrix/1me/H_IMG_6786_to_IMG_6783.txt</code></li>
+            <li><code>code/h_matrix/1me/H_IMG_6792_to_IMG_6783.txt</code></li>
+            <li><code>code/h_matrix/9/H_002_to_001.txt</code></li>
+            <li><code>code/h_matrix/9_5/H_002_to_001.txt</code></li>
+            <li><code>code/h_matrix/11/H_003_to_001.txt</code></li>
+        </ul>
+    </div>
+</div>
+
+<button class="collapsible">Part 3: Warp the Images</button>
+<div class="content">
+    <div class="box">
+        <p>Once the homographies were recovered, I used them to warp the images. The warping was done using inverse mapping, which maps each pixel from the output back to the input image. This step also involved bilinear interpolation to resample the pixel values from non-integer coordinates. The warped images were saved under the `code/output/` folder for each set of images.</p>
+        <div class="image-row">
+            <img src="./code/output/9/warped_001.jpg" alt="Warped 9-001">
+            <img src="./code/output/9/warped_002.jpg" alt="Warped 9-002">
+            <img src="./code/output/9/warped_003.jpg" alt="Warped 9-003">
+        </div>
+        <div class="image-row">
+            <img src="./code/output/1me/warped_IMG_6783.jpg" alt="Warped IMG_6783">
+            <img src="./code/output/1me/warped_IMG_6786.jpg" alt="Warped IMG_6786">
+            <img src="./code/output/1me/warped_IMG_6792.jpg" alt="Warped IMG_6792">
+        </div>
+        <div class="image-row">
+            <img src="./code/output/2me/warped_IMG_6803.jpg" alt="Warped IMG_6803">
+            <img src="./code/output/2me/warped_IMG_6811.jpg" alt="Warped IMG_6811">
+            <img src="./code/output/2me/warped_IMG_6812.jpg" alt="Warped IMG_6812">
+        </div>
+        <div class="image-row">
+            <img src="./code/output/3me/warped_IMG_6402.jpg" alt="Warped IMG_6402">
+            <img src="./code/output/3me/warped_IMG_6406.jpg" alt="Warped IMG_6406">
+            <img src="./code/output/3me/warped_IMG_6407.jpg" alt="Warped IMG_6407">
+        </div>
+    </div>
+</div>
+
+<button class="collapsible">Part 4: Image Rectification</button>
+<div class="content">
+    <div class="box">
+        <p>For testing the homography accuracy, I performed image rectification. This involves transforming an image such that a known planar object (like a square or rectangular tile) appears fronto-parallel. I manually selected the corner points of rectangular objects and computed the homography to map these points to a perfect rectangle. The results were stored under the `code/rectify/` folder.</p>
+        <div class="image-row">
+            <img src="./code/rectify/good1.jpg" alt="Rectified Image 1">
+            <img src="./code/rectify/good2.jpg" alt="Rectified Image 2">
+        </div>
+        <div class="image-row">
+            <img src="./code/rectify/good3.jpg" alt="Rectified Image 3">
+            <img src="./code/rectify/good4.jpg" alt="Rectified Image 4">
+        </div>
+    </div>
+</div>
+
+<button class="collapsible">Part 5: Blend the Images into a Mosaic</button>
+<div class="content">
+    <div class="box">
+        <p>In the final step, I blended the images into a mosaic. To achieve seamless transitions between images, I computed alpha masks for each image, giving more weight to the center and tapering off towards the edges. This was crucial for smooth blending, especially in overlapping regions.</p>
+        <p>I implemented both basic weighted averaging and Laplacian pyramid blending for smoother transitions. The results were saved in the `code/output/` folder for each image set.</p>
+        <div class="image-row">
+            <img src="./code/output/9/mosaic.jpg" alt="Mosaic 9">
+            <img src="./code/output/9/mosaic_blended.jpg" alt="Blended Mosaic 9">
+            <img src="./code/output/9/mosaic_sharpened.jpg" alt="Sharpened Mosaic 9">
+        </div>
+        <div class="image-row">
+            <img src="./code/output/1me/mosaic.jpg" alt="Mosaic 1me">
+            <img src="./code/output/1me/mosaic_blended.jpg" alt="Blended Mosaic 1me">
+            <img src="./code/output/1me/mosaic_sharpened.jpg" alt="Sharpened Mosaic 1me">
+        </div>
+        <div class="image-row">
+            <img src="./code/output/2me/mosaic.jpg" alt="Mosaic 2me">
+            <img src="./code/output/2me/mosaic_blended.jpg" alt="Blended Mosaic 2me">
+            <img src="./code/output/2me/mosaic_sharpened.jpg" alt="Sharpened Mosaic 2me">
+        </div>
+        <div class="image-row">
+            <img src="./code/output/3me/mosaic.jpg" alt="Mosaic 3me">
+            <img src="./code/output/3me/mosaic_blended.jpg" alt="Blended Mosaic 3me">
+            <img src="./code/output/3me/mosaic_sharpened.jpg" alt="Sharpened Mosaic 3me">
+        </div>
+        <div class="image-row">
+            <img src="./code/output/10/mosaic.jpg" alt="Mosaic 10">
+            <img src="./code/output/10/mosaic_blended.jpg" alt="Blended Mosaic 10">
+            <img src="./code/output/10/mosaic_sharpened.jpg" alt="Sharpened Mosaic 10">
+        </div>
+        <div class="image-row">
+            <img src="./code/output/11/mosaic.jpg" alt="Mosaic 11">
+            <img src="./code/output/11/mosaic_blended.jpg" alt="Blended Mosaic 11">
+            <img src="./code/output/11/mosaic_sharpened.jpg" alt="Sharpened Mosaic 11">
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+
+    for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.display === "block") {
+                content.style.display = "none";
+            } else {
+                content.style.display = "block";
+            }
+        });
+    }
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const paragraphs = document.querySelectorAll("p");
+
+        paragraphs.forEach(paragraph => {
+            paragraph.innerHTML = paragraph.innerHTML.replace(/`([^`]+)`/g, function (match, p1) {
+                return `<code>${p1}</code>`;
+            });
+        });
+    });
+</script>
+
+<script>
+    let container = document.getElementById('image-container');
+    let img = document.getElementById('design-image');
+    let isDragging = false;
+    let startX, startY;
+    let imgX = 0, imgY = 0;
+    let scale = 1;
+
+    container.addEventListener('mousedown', function(e) {
+        isDragging = true;
+        startX = e.clientX - imgX;
+        startY = e.clientY - imgY;
+    });
+    container.addEventListener('mousemove', function(e) {
+        if (isDragging) {
+            imgX = e.clientX - startX;
+            imgY = e.clientY - startY;
+            img.style.transform = `translate(${imgX}px, ${imgY}px) scale(${scale})`;
+        }
+    });
+    container.addEventListener('mouseup', function() {
+        isDragging = false;
+    });
+    container.addEventListener('mouseleave', function() {
+        isDragging = false;
+    });
+
+    container.addEventListener('wheel', function(e) {
+        e.preventDefault();
+        let rect = container.getBoundingClientRect();
+        let offsetX = e.clientX - rect.left - imgX;
+        let offsetY = e.clientY - rect.top - imgY;
+        let delta = e.deltaY > 0 ? -0.1 : 0.1;
+        let newScale = Math.min(Math.max(0.5, scale + delta), 5);
+
+        imgX -= offsetX * (newScale - scale) / scale;
+        imgY -= offsetY * (newScale - scale) / scale;
+
+        scale = newScale;
+        img.style.transform = `translate(${imgX}px, ${imgY}px) scale(${scale})`;
+    });
+
+    img.addEventListener('load', function() {
+        let containerRect = container.getBoundingClientRect();
+        let imgWidth = img.naturalWidth;
+        let imgHeight = img.naturalHeight;
+
+        let scaledWidth = imgWidth * scale;
+        let scaledHeight = imgHeight * scale;
+
+        imgX = (containerRect.width - scaledWidth) / 2;
+        imgY = (containerRect.height - scaledHeight) / 2;
+
+        img.style.transform = `translate(${imgX}px, ${imgY}px) scale(${scale})`;
+    });
+</script>
+
+</body>
+</html>
