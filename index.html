@@ -92,14 +92,6 @@
         object-fit: cover;
     }
 
-    .image-row2 {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        width: 100%;
-        height: 100%;
-    }
 
     .collapsible {
         background-color: #111111;
@@ -150,6 +142,30 @@
         object-fit: contain;
     }
 
+    .image-row2 {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .image-row2 img {
+        width: 10%;
+        height: auto;
+        object-fit: contain;
+    }
+
+    .image-row3 {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .image-row3 img {
+        width: 40%;
+        height: auto;
+        object-fit: contain;
+    }
+
     #image-container {
         width: 100%;
         height: 80vh;
@@ -188,12 +204,19 @@
 </head>
 <body>
 
-<h1>CS180 Project 4 -- Ryan Nader</h1>
+<h1>CS180 Project 4 -- Ryan Nader -- Part A + B</h1>
 
 <p>github: https://github.com/berkeleybear22ryan/CS180_Project4</p>
 <p>website: https://berkeleybear22ryan.github.io/CS180_Project4/</p>
-
-<button class="collapsible">Part 1: Shoot and Digitize Pictures</button>
+<p>also look at `README.md` on codebase for more images and in other output directories for all the images and videos</p>
+<iframe class="responsive-iframe" src="https://www.youtube.com/embed/ottPtoOPGgM?autoplay=1&mute=1&loop=1&playlist=ottPtoOPGgM" title="goose video mosaic" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<p>for `PART 1` ...</p>
+<p>you can call `a1.py` or `a1.py -add` to add more points</p>
+<p>then `a2.py`</p>
+<p>then `a3.py`</p>
+<p>then `a5.py` it want the images cleaned and blended better</p>
+<p>also can call `a4.py` to rectify the image</p>
+<button class="collapsible">ONE --> Part 1: Shoot and Digitize Pictures</button>
 <div class="content">
     <div class="box">
         <p>For this project, I took multiple sets of pictures, but I ended up liking a set of online images better. I took my own images for practice but used the following for the mosaicing part. The images had overlapping fields of view, which made it easier to work with homographies and mosaic blending.</p>
@@ -234,7 +257,7 @@
     </div>
 </div>
 
-<button class="collapsible">Part 2: Recover Homographies</button>
+<button class="collapsible">ONE --> Part 2: Recover Homographies</button>
 <div class="content">
     <div class="box">
         <p>Homography recovery was a critical part of aligning images. I manually selected corresponding points between image pairs, which were saved under the `code/points/` directory. The homographies were computed using a custom `computeH` function, which takes in these points and computes the homography matrix using a least-squares solution. Each transformation matrix was stored under `code/h_matrix/`.</p>
@@ -257,7 +280,7 @@
     </div>
 </div>
 
-<button class="collapsible">Part 3: Warp the Images</button>
+<button class="collapsible">ONE --> Part 3: Warp the Images</button>
 <div class="content">
     <div class="box">
         <p>Once the homographies were recovered, I used them to warp the images. The warping was done using inverse mapping, which maps each pixel from the output back to the input image. This step also involved bilinear interpolation to resample the pixel values from non-integer coordinates. The warped images were saved under the `code/output/` folder for each set of images.</p>
@@ -284,7 +307,7 @@
     </div>
 </div>
 
-<button class="collapsible">Part 4: Image Rectification</button>
+<button class="collapsible">ONE --> Part 4: Image Rectification</button>
 <div class="content">
     <div class="box">
         <p>For testing the homography accuracy, I performed image rectification. This involves transforming an image such that a known planar object (like a square or rectangular tile) appears fronto-parallel. I manually selected the corner points of rectangular objects and computed the homography to map these points to a perfect rectangle. The results were stored under the `code/rectify/` folder.</p>
@@ -299,7 +322,7 @@
     </div>
 </div>
 
-<button class="collapsible">Part 5: Blend the Images into a Mosaic</button>
+<button class="collapsible">ONE --> Part 5: Blend the Images into a Mosaic</button>
 <div class="content">
     <div class="box">
         <p>In the final step, I blended the images into a mosaic. To achieve seamless transitions between images, I computed alpha masks for each image, giving more weight to the center and tapering off towards the edges. This was crucial for smooth blending, especially in overlapping regions.</p>
@@ -334,6 +357,252 @@
             <img src="./code/output/11/mosaic_blended.jpg" alt="Blended Mosaic 11">
             <img src="./code/output/11/mosaic_sharpened.jpg" alt="Sharpened Mosaic 11">
         </div>
+    </div>
+</div>
+
+------------------------
+<p>for `PART 2` ...</p>
+<p>`b1.py` is linked with `step1` folder</p>
+<p>`b2.py` is linked with `step2` folder</p>
+<p>`b3.py` is linked with `step3` folder</p>
+<p>`b4.py` is linked with `step4` folder</p>
+<p>`b5_1.py` is linked with `step5` folder</p>
+<p>then use can use part 1 stuff to link all images with the auto created points</p>
+<p>this process now can skip calling `a1.py` and just call `a2.py` then `a3.py` or `a5.py` or both</p>
+<p>I also have 3 bash files titled `runall.sh`, `runall_shark.sh`, and `runall_shark_p.sh` so you can get a fell for how the pipeline works</p>
+<p>main one is: `runall.sh`, which allows you to just put in images and then get the output for that group</p>
+------------------------
+<p>in the next few sections I will walk through a sample image for each part of the project and then at the end include my final images so it does not get to cluttered</p>
+<p>specifically, I will walk through image set `9_0_P2`</p>
+<p>IMPORTANT: please also right-click and open image in new tab if too small to see as all images are high resolution and pdf of website is low resolution to fit on gradescope submission</p>
+<button class="collapsible">TWO --> Part 1: Detecting corner features (10pts)</button>
+<div class="content">
+    <div class="box">
+        <p>so we first start with the following two images + converted to black and white so that we have a single channel ...</p>
+        <div class="image-row">
+            <img src="./code/images/9_0_P2/001.jpg">
+            <img src="./code/images/9_0_P2/002.jpg">
+        </div>
+    </div>
+    <div class="box">
+        <p>This is the part for detecting corner features in an image (10 pts)</p>
+        <p>First use `b1.py` to reading and prepare images for processing for all the other files then</p>
+        <p>this section corresponds to `b2.py` where I follow the paper shared which wanted ...</p>
+        <p>Harris Interest Point Detector (Section 2 of the paper)</p>
+        <p>Adaptive Non-Maximal Suppression (ANMS) (Section 3)</p>
+        <p>in my code `b1.py` gives step1, all the harris corners images which for this look like:</p>
+        <div class="image-row">
+            <img src="./code/part2_output/9_0_P2/step1/harris_corners_001.jpg">
+            <img src="./code/part2_output/9_0_P2/step1/harris_corners_002.jpg">
+        </div>
+    </div>
+    <div class="box">
+        <p>then from here step 2 from `b2.py` gives all the anms corner images which look like:</p>
+        <div class="image-row">
+            <img src="./code/part2_output/9_0_P2/step2/anms_corners_001.jpg">
+            <img src="./code/part2_output/9_0_P2/step2/anms_corners_002.jpg">
+        </div>
+        <p>also all of the metadata for each section is saved in its appropiate section</p>
+    </div>
+</div>
+
+<button class="collapsible">TWO --> Part 2: Extracting a Feature Descriptor (10pts) </button>
+<div class="content">
+    <div class="box">
+        <p>This section is for ... Extracting a Feature Descriptor for each feature point (10 pts)</p>
+        <p>the guidelines for this that I followed also stem from the paper in which there are the following condition ...</p>
+        <p>Implement Feature Descriptor extraction (Section 4 of the paper).</p>
+        <p>Extract axis-aligned 8x8 patches from a larger 40x40 window.</p>
+        <p>Bias/gain-normalize the descriptors.</p>
+        <p>Ignore rotation invariance and wavelet transform.</p>
+        <p>this section corresponds to `b3.py` and for reference here are what some of the feature descriptors for each point look like:</p>
+        <div class="image-row2">
+            <img src="./code/part2_output/9_0_P2/step3/descriptors_visualization/descriptor_0.png">
+            <img src="./code/part2_output/9_0_P2/step3/descriptors_visualization/descriptor_1.png">
+            <img src="./code/part2_output/9_0_P2/step3/descriptors_visualization/descriptor_2.png">
+            <img src="./code/part2_output/9_0_P2/step3/descriptors_visualization/descriptor_3.png">
+            <img src="./code/part2_output/9_0_P2/step3/descriptors_visualization/descriptor_4.png">
+            <img src="./code/part2_output/9_0_P2/step3/descriptors_visualization/descriptor_5.png">
+            <img src="./code/part2_output/9_0_P2/step3/descriptors_visualization/descriptor_6.png">
+            <img src="./code/part2_output/9_0_P2/step3/descriptors_visualization/descriptor_7.png">
+            <img src="./code/part2_output/9_0_P2/step3/descriptors_visualization/descriptor_8.png">
+            <img src="./code/part2_output/9_0_P2/step3/descriptors_visualization/descriptor_9.png">
+            <img src="./code/part2_output/9_0_P2/step3/descriptors_visualization/descriptor_10.png">
+            <img src="./code/part2_output/9_0_P2/step3/descriptors_visualization/descriptor_11.png">
+            <img src="./code/part2_output/9_0_P2/step3/descriptors_visualization/descriptor_12.png">
+            <img src="./code/part2_output/9_0_P2/step3/descriptors_visualization/descriptor_13.png">
+            <img src="./code/part2_output/9_0_P2/step3/descriptors_visualization/descriptor_14.png">
+            <img src="./code/part2_output/9_0_P2/step3/descriptors_visualization/descriptor_15.png">
+            <img src="./code/part2_output/9_0_P2/step3/descriptors_visualization/descriptor_16.png">
+            <img src="./code/part2_output/9_0_P2/step3/descriptors_visualization/descriptor_17.png">
+            <img src="./code/part2_output/9_0_P2/step3/descriptors_visualization/descriptor_18.png">
+            <img src="./code/part2_output/9_0_P2/step3/descriptors_visualization/descriptor_19.png">
+        </div>
+    </div>
+</div>
+
+<button class="collapsible">TWO --> Part 3: Matching feature descriptors (20pts) </button>
+<div class="content">
+    <div class="box">
+        <p>This section is for ... Matching these feature descriptors between two images (20 pts)</p>
+        <p>the code for this is in `b4.py`</p>
+        <p>in the paper this corresponds Implement Feature Matching (Section 5 of the paper).</p>
+        <p>here we use Lowe's ratio test for thresholding based on the ratio between the first and second nearest neighbors.</p>
+        <p>please consult Figure 6b in the paper for picking the threshold.</p>
+        <p>and what `b4.py` specifically does is perform feature matching between pairs of images by ...</p>
+        <p>Loads descriptors from `b3.py` for each image.</p>
+        <p>Computes distances between descriptors from different images.</p>
+        <p>Applies Lowe's ratio test to retain good matches.</p>
+        <p>And it returns matched keypoint indices between image pairs which you can see for the image below</p>
+        <div class="image-row3">
+            <img src="./code/part2_output/9_0_P2/step4/all_matches.png">
+        </div>
+    </div>
+</div>
+
+<button class="collapsible">TWO --> Part 4: Robust method (RANSAC) to compute a homography (30 pts) </button>
+<div class="content">
+    <div class="box">
+        <p>This section is for ... Use a robust method (RANSAC) to compute a homography (30 pts)</p>
+        <p>the code for this is in `b5_1.py`</p>
+        <p>`b5.py` uses the 4-point RANSAC as described in class to compute a robust homography estimate</p>
+        <p>so that we can handle outliers effectively</p>
+        <p>the process is as follows ... </p>
+        <p>Loads matched keypoint indices from `b4.py`</p>
+        <p>Loads keypoint coordinates from `b2.py`</p>
+        <p>then do RANSAC Homography Estimation which includes ...</p>
+        <p>Randomly sample subsets of matches to compute candidate homographies</p>
+        <p>Computes the homography using the Direct Linear Transformation (DLT) method</p>
+        <p>Identifies inliers based on reprojection error and a specified threshold</p>
+        <p>Repeats for a number of iterations to find the best homography</p>
+        <p>then from here all the info and points are stored so they can then be used to produce the mosaic</p>
+        <p>this is the result from step5 data inliers ... </p>
+        <div class="image-row3">
+            <img src="./code/part2_output/9_0_P2/step5/inliers_001.jpg_002.jpg.png">
+        </div>
+        <p>and as you can see it cleans up a lot of the issues as I also set it to prioritize accuracy over point totals</p>
+    </div>
+</div>
+
+
+<button class="collapsible">TWO --> Part 5: Producing a Mosaic (30 pts) </button>
+<div class="content">
+    <div class="box">
+        <p>below I have more details plus extra images beyond the 3 but here are the three so you can see them quickly and not miss them ...</p>
+        <p>manual on left, auto on right</p>
+        <div class="image-row3">
+            <img src="./code/output/9/mosaic_sharpened.jpg">
+            <img src="./code/output/9_1_P2/mosaic_sharpened.jpg">
+        </div>
+        <div class="image-row3">
+            <img src="./code/output/10/mosaic_sharpened.jpg">
+            <img src="./code/output/10_0_P2/mosaic_sharpened.jpg">
+        </div>
+        <div class="image-row3">
+            <img src="./code/output/11/mosaic_sharpened.jpg">
+            <img src="./code/output/11_P2/mosaic_sharpened.jpg">
+        </div>
+        <p>please continue reading below if more info is needed ...</p>
+    </div>
+
+    <div class="box">
+        <p>This section is for ... Proceed as in the first part to produce a mosaic (30 pts; you may use the same images from part A, but show both manually and automatically stitched results side by side) [produce at least three mosaics]</p>
+        <p>the code for this is reuse of part1 as I saved the auto generated points in `./points` directory and then call `a2.py` and `a3.py` and `a5.py` </p>
+        <p>which then gives ... </p>
+        <div class="image-row3">
+            <img src="./code/output/9_0_P2/mosaic_sharpened.jpg">
+        </div>
+        <p>this can be compared to the manual selected points one which gave ...</p>
+        <div class="image-row3">
+            <img src="./code/output/9/mosaic_sharpened.jpg">
+        </div>
+        <p>as you can see because I selected a lot of points for this one and am blending and sharpening very strongly both look good but they are some where one might look worse then another</p>
+    </div>
+    <div class="box">
+        <p>when comparing handpicked `\9` which looks like</p>
+        <div class="image-row3">
+            <img src="./code/output/9/mosaic_sharpened.jpg">
+        </div>
+        <p>to autopicked `9_1_P2` with to strict parameters and thus too little points we can see that the auto picked one is slightly blurrier then handpicked</p>
+        <p>it looks like ...</p>
+        <div class="image-row3">
+            <img src="./code/output/9_1_P2/mosaic_sharpened.jpg">
+        </div>
+    </div>
+    <div class="box">
+        <p>another image I worked on was in which the auto generated point looked better was when comparing handpicked `\10` with auto generated `10_0_P2`</p>
+        <p>handpicked `\10` looks like ...</p>
+        <div class="image-row3">
+            <img src="./code/output/10/mosaic_sharpened.jpg">
+        </div>
+        <p>and auto generated `10_0_P2` looks like ...</p>
+        <div class="image-row3">
+            <img src="./code/output/10_0_P2/mosaic_sharpened.jpg">
+        </div>
+        <p>here you can see that the grass looks a lot better and if you zoom in most if not all the images looks sharper</p>
+    </div>
+    <div class="box">
+        <p>this can be further seen when comparing the points I selected for the two and how accurately I tried to select the points here they are for context</p>
+        <p>`\9` and `\9_1_P2`</p>
+        <p>here is was not able to find as many connection as there was not as much overlap so it was less certain ...</p>
+        <div class="image-row3">
+            <img src="./code/points_visual/P2_1.png">
+            <img src="./code/points_visual/P2_2.png">
+        </div>
+        <p>`\10` and `10_0_P2`</p>
+        <p>here there was a ton of overlap plus I also was lazy when selecting points ...</p>
+        <div class="image-row3">
+            <img src="./code/points_visual/P2_3.png">
+            <img src="./code/points_visual/P2_4.png">
+            <img src="./code/points_visual/P2_5.png">
+            <img src="./code/points_visual/P2_6.png">
+        </div>
+    </div>
+
+    <div class="box">
+        <p>some other combos I made with the auto one are ones that would have taken too long to do by hand, like ...</p>
+        <p>manual on left, auto on right</p>
+        <p>`\11_2_P2`</p>
+        <div class="image-row3">
+            <img src="./code/output/11_2_P2/mosaic_sharpened.jpg">
+        </div>
+        <p>`\12`</p>
+        <div class="image-row3">
+            <img src="./code/output/12/mosaic_sharpened.jpg">
+        </div>
+        <p>`\frame_0001`</p>
+        <div class="image-row3">
+            <img src="./code/output/frame_0001/mosaic_sharpened.jpg">
+        </div>
+
+    </div>
+
+</div>
+
+<button class="collapsible">TWO --> Part 6: Video mosaic (??? pts) </button>
+<div class="content">
+    <div class="box">
+        <p>combined 4 seperate 4k shots of geese from different overlapping camera angles and locked the orientation of the top left frames and warped everything around that</p>
+        <p>i.e. locked the orientation of quadrant 2</p>
+        <div class="image-row3">
+            <img src="./code/points_visual/oth1.png">
+        </div>
+        <p>video frames are in 2 by 2 grid and combined them with quadrant 2 then 3 then 4 then 1 based on diagram above and then flattened and got ... </p>
+        <iframe class="responsive-iframe" src="https://www.youtube.com/embed/ottPtoOPGgM?autoplay=1&mute=1&loop=1&playlist=ottPtoOPGgM" title="goose video mosaic" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <p>for context the 4 images for a single frame are in format ...</p>
+        <div class="image-row3">
+            <img src="./code/images/frame_0001/001.jpg">
+            <img src="./code/images/frame_0001/002.jpg">
+            <img src="./code/images/frame_0001/003.jpg">
+            <img src="./code/images/frame_0001/004.jpg">
+        </div>
+    </div>
+</div>
+
+<button class="collapsible">TWO --> Part 7: What have you learned?</button>
+<div class="content">
+    <div class="box">
+        <p>The coolest thing I have learned from this project is the incredible power of computer vision techniques to automate complex tasks like image stitching. By delving deep into feature detection, description, matching, and robust homography estimation with RANSAC, I was able to create a system that seamlessly stitches images without any manual intervention. It was really cool to see how the mathematical algorithms come together to solve real-world problems. Moreover, implementing research papers and translating theoretical ideas into practical code has significantly enhanced my understanding and appreciation of the topic.</p>
     </div>
 </div>
 

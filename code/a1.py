@@ -164,13 +164,19 @@ def save_points(pts1, pts2, im1_name, im2_name, output_dir):
 
 
 def main():
-    dir_name = "9_7"
+    dir_name = "10_0_P2"
     image_dir = f'./images/{dir_name}/'
+
+    # part1
     output_dir = f'./points/{dir_name}/'
+    # part2
+    # output_dir = f'./part2_output/{dir_name}/points'
+
     os.makedirs(output_dir, exist_ok=True)
 
     image_files = sorted([f for f in os.listdir(image_dir) if f.lower().endswith('.jpg')])
     images = [cv2.imread(os.path.join(image_dir, f)) for f in image_files]
+    print(image_files)
 
     num_images = len(images)
 

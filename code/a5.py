@@ -3,6 +3,7 @@
 import cv2
 import numpy as np
 import os
+import sys
 # assume this was okay as it was not even required in project
 from scipy.ndimage import distance_transform_edt
 
@@ -115,7 +116,14 @@ def convolve_separable(image, kernel_1d):
 
 
 def main():
-    dir_name = "9_7"
+    if len(sys.argv) < 2:
+        print("Error: Section argument is required.")
+        sys.exit(1)
+
+    dir_name = sys.argv[1]
+    # dir_name = "12"
+
+
     image_dir = f'./images/{dir_name}/'
     h_matrix_dir = f'./h_matrix/{dir_name}/'
     output_dir = f'./output/{dir_name}/'

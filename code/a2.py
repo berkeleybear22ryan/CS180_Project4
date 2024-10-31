@@ -1,6 +1,7 @@
 # THIS FILE is for getting the H's
 import numpy as np
 import os
+import sys
 
 
 # TODO: keep there naming ...
@@ -26,7 +27,16 @@ def computeH(im1_pts, im2_pts):
 
 
 def main():
-    dir_name = "9_7"
+
+    if len(sys.argv) < 2:
+        print("Error: Section argument is required.")
+        sys.exit(1)
+
+    dir_name = sys.argv[1]
+    # dir_name = "12"
+
+
+
     image_dir = f'./images/{dir_name}/'
     points_dir = f'./points/{dir_name}/'
     h_matrix_dir = f'./h_matrix/{dir_name}/'
